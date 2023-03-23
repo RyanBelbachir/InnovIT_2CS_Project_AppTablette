@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import 'package:innovit_2cs_project_apptablette/helpers/extentions.dart';
-import '../bussiness/drink.dart';
-import '../widgets/card.dart';
-import '../styles/theme.dart';
+import '/bussiness/drink.dart';
+import '/widgets/card.dart';
+import '/styles/theme.dart';
 
 class Tabs extends StatefulWidget {
   final List<Drink> drinks;
@@ -17,7 +17,7 @@ class _TabsState extends State<Tabs> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: Paddings.paddingTop16,
+      padding: Paddings.paddingWrap,
       child: DefaultTabController(
         length: 3,
         child: Column(children: [
@@ -35,11 +35,12 @@ class _TabsState extends State<Tabs> {
             child: Container(
               color: Colors.white,
               child: TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   children: widget.categories
                       .map(
                         (cat) => Container(
-                          padding: Paddings.padding16,
+                          padding: Paddings.padding8,
+                          decoration: Decorations.bodyDecoration,
                           child: ListView.separated(
                               itemCount: widget.drinks
                                   .where((it) => it.category == cat)

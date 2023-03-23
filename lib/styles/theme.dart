@@ -72,6 +72,8 @@ class Paddings {
   static const EdgeInsets paddingTop16 = EdgeInsets.only(top: 16);
   static const EdgeInsets padding16 = EdgeInsets.all(16);
   static const EdgeInsets padding8 = EdgeInsets.all(8);
+  static const EdgeInsets paddingWrap =
+      EdgeInsets.only(top: 16, right: 16, left: 16);
 }
 
 class Gaps {

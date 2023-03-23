@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:innovit_2cs_project_apptablette/styles/theme.dart';
 import 'pages/home.dart';
 import 'pages/drink_details.dart';
 import 'pages/settings.dart';
@@ -30,7 +31,20 @@ class _MainAppState extends State<MainApp> {
         "/settings": (_) => const Settings()
       },
       theme: ThemeData(
-          primaryColor: const Color(0xff251201), fontFamily: 'Outfit'),
+          primaryColor: const Color(0xff251201),
+          fontFamily: 'Outfit',
+          colorScheme: ColorScheme(
+              brightness: Brightness.light,
+              primary: CustomColors.blackColor,
+              onPrimary: CustomColors.blackColor,
+              secondary: CustomColors.expressoColor,
+              onSecondary: CustomColors.expressoColor,
+              error: CustomColors.redColor,
+              onError: CustomColors.redColor,
+              background: CustomColors.bgColor,
+              onBackground: CustomColors.bgColor,
+              surface: CustomColors.bgColor,
+              onSurface: CustomColors.bgColor)),
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
     );
