@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   drop_shadow_image: ^0.9.1
+  drop_shadow: ^0.1.0
 
 dev_dependencies:
   flutter_test:

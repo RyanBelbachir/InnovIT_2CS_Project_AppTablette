@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:drop_shadow_image/drop_shadow_image.dart';
+import 'package:innovit_2cs_project_apptablette/helpers/extentions.dart';
+import '../styles/theme.dart';
+import '../bussiness/drink.dart';
 
 class DrinkCard extends StatefulWidget {
-  final String name;
-  final String imageLink;
-  final String description;
-  final String price;
-  const DrinkCard(
-      {super.key,
-      required this.name,
-      required this.imageLink,
-      required this.description,
-      required this.price});
+  final Drink drink;
+  const DrinkCard({
+    super.key,
+    required this.drink,
+  });
 
   @override
   State<DrinkCard> createState() => DrinkCardState();
@@ -21,40 +19,31 @@ class DrinkCardState extends State<DrinkCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: const Color(0xffE4C49C).withOpacity(0.2),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black.withOpacity(0.1), // shadow color
-              blurRadius: 14, // shadow radius
-              offset: const Offset(0, 0), // shadow offset
-              spreadRadius: 0,
-              blurStyle: BlurStyle.normal)
-        ],
-      ),
+      padding: Paddings.padding8,
+      decoration: Decorations.cardStyle,
       child: InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed("/page2", arguments: 3);
+            Navigator.of(context)
+                .pushNamed("/drink-details", arguments: widget.drink);
           },
           child: Ink(
             child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: Borders.borderRadius20,
                 child: DropShadowImage(
                   image: Image.asset(
-                    widget.imageLink,
+                    widget.drink.imageLink,
                     width: 100,
                     height: 100,
                     fit: BoxFit.cover,
                   ),
-                  borderRadius: 2,
+                  scale: 0.1,
+                  borderRadius: 0,
                   blurRadius: 10,
                   offset: const Offset(0, 2),
                 ),
               ),
-              const SizedBox(width: 26),
+              Gaps.gapH25,
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,28 +51,15 @@ class DrinkCardState extends State<DrinkCard> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(widget.name,
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Outfit',
-                              fontSize: 24)),
+                      Text(widget.drink.name.toTitleCase(),
+                          style: Fonts.bold24),
                       const SizedBox(height: 4),
-                      Text(widget.description,
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Outfit',
-                              fontSize: 14)),
+                      Text(widget.drink.description, style: Fonts.light14),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  Text("${widget.price.toString()} DA",
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Outfit',
-                          fontSize: 20))
+                  Gaps.gapV25,
+                  Text("${widget.drink.price.toString()} DA",
+                      style: Fonts.medium20)
                 ],
               )
             ]),

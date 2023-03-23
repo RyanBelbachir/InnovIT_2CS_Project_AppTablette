@@ -14,7 +14,7 @@ class CustomColors {
 }
 
 class Borders {
-  static const BorderRadius borderRadius =
+  static const BorderRadius borderRadius20 =
       BorderRadius.all(Radius.circular(20));
 }
 
@@ -38,15 +38,20 @@ class Fonts {
       fontFamily: "Outfit",
       fontSize: 24,
       fontWeight: FontWeight.bold,
-      color: CustomColors.whiteColor);
+      color: CustomColors.redColor);
   static const TextStyle bold24Green = TextStyle(
       fontFamily: "Outfit",
       fontSize: 24,
       fontWeight: FontWeight.bold,
-      color: CustomColors.whiteColor);
+      color: CustomColors.greenColor);
   static const TextStyle medium20 = TextStyle(
       fontFamily: "Outfit",
       fontSize: 20,
+      fontWeight: FontWeight.w500,
+      color: CustomColors.blackColor);
+  static const TextStyle medium24 = TextStyle(
+      fontFamily: "Outfit",
+      fontSize: 24,
       fontWeight: FontWeight.w500,
       color: CustomColors.blackColor);
   static const TextStyle regular20 = TextStyle(
@@ -70,41 +75,52 @@ class Paddings {
 }
 
 class Gaps {
-  static const Widget gap25 = SizedBox(
+  static customVGap(double gap) {
+    return SizedBox(height: gap);
+  }
+
+  static customHGap(double gap) {
+    return SizedBox(width: gap);
+  }
+
+  static const Widget gapV25 = SizedBox(
     height: 25,
   );
-  static const Widget gap16 = SizedBox(
+  static const Widget gapH25 = SizedBox(
+    width: 25,
+  );
+  static const Widget gapV16 = SizedBox(
     height: 16,
   );
 }
 
 class Decorations {
   static Decoration cardStyle = BoxDecoration(
-    color: const Color(0xffE4C49C).withOpacity(0.2),
+    color: CustomColors.bgColor,
     borderRadius: BorderRadius.circular(20),
-    boxShadow: [
-      BoxShadow(
-          color: Colors.black.withOpacity(0.1), // shadow color
-          blurRadius: 14, // shadow radius
-          offset: const Offset(0, 0), // shadow offset
-          spreadRadius: 0,
-          blurStyle: BlurStyle.normal)
-    ],
+    // boxShadow: [
+    //   BoxShadow(
+    //       color: Colors.black.withOpacity(0.1), // shadow color
+    //       blurRadius: 14, // shadow radius
+    //       offset: const Offset(0, 0), // shadow offset
+    //       spreadRadius: 0,
+    //       blurStyle: BlurStyle.normal)
+    // ],
   );
-  static Decoration bodyDecoration = BoxDecoration(
+  static Decoration bodyDecoration = const BoxDecoration(
       color: Colors.white,
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.16),
-          blurRadius: 4.0,
-          spreadRadius: 0,
-          offset: const Offset(
-            0,
-            -4,
-          ),
-        )
-      ],
-      borderRadius: const BorderRadius.only(
+      // boxShadow: [
+      //   BoxShadow(
+      //     color: Colors.black.withOpacity(0.16),
+      //     blurRadius: 4.0,
+      //     spreadRadius: 0,
+      //     offset: const Offset(
+      //       0,
+      //       -4,
+      //     ),
+      //   )
+      // ],
+      borderRadius: BorderRadius.only(
           topRight: Radius.circular(20), topLeft: Radius.circular(20)));
 }
 
@@ -124,5 +140,10 @@ class CustomIcons {
     Icons.radio_button_checked,
     color: CustomColors.blackColor,
     size: 62.5,
+  );
+  static const Icon settingsIcon = Icon(
+    Icons.settings_outlined,
+    color: Colors.black,
+    size: 40,
   );
 }

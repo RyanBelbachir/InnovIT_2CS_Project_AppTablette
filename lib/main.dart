@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import './pages/home.dart';
-import './pages/next.dart';
+import 'pages/home.dart';
+import 'pages/drink_details.dart';
+import 'pages/settings.dart';
 
 void main() {
   runApp(const MainApp());
@@ -24,7 +25,10 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      routes: {"/page2": (_) => const NextPage()},
+      routes: {
+        "/drink-details": (_) => const DrinkDetails(),
+        "/settings": (_) => const Settings()
+      },
       theme: ThemeData(
           primaryColor: const Color(0xff251201), fontFamily: 'Outfit'),
       debugShowCheckedModeBanner: false,
