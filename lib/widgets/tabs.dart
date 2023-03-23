@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import '../bussiness/drink.dart';
 import '../widgets/card.dart';
+import '../styles/theme.dart';
 
 class Tabs extends StatefulWidget {
   final List<Drink> drinks;
@@ -17,18 +18,13 @@ class _TabsState extends State<Tabs> {
     return DefaultTabController(
       length: 3,
       child: Column(children: [
-        const TabBar(
-          splashBorderRadius: BorderRadius.all(Radius.circular(20)),
-          labelColor: Colors.amber,
-          labelStyle: TextStyle(fontSize: 23),
-          unselectedLabelColor: Colors.black,
-          indicator: BoxDecoration(),
-          tabs: [
-            Tab(text: "Coffee"),
-            Tab(text: "Milk"),
-            Tab(text: "Tea"),
-          ],
-        ),
+        TabBar(
+            splashBorderRadius: Borders.borderRadius,
+            labelColor: CustomColors.expressoColor,
+            labelStyle: const TextStyle(fontSize: 24),
+            unselectedLabelColor: Colors.black,
+            indicator: const BoxDecoration(),
+            tabs: widget.categories.map((cat) => Tab(text: cat)).toList()),
         Expanded(
           child: Container(
             color: Colors.white,

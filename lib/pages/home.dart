@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/tabs.dart';
 import '../bussiness/drink.dart';
+import '../styles/theme.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,20 +11,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // static data
   final List<Drink> drinks = List.of([
     Drink("cappuccino", "A mix of cofee, milk and caccao",
-        "assets/images/tree.jpg", 40.0, "coffee"),
+        "assets/images/tree.jpg", 40.00, "coffee"),
     Drink("cappuccino", "A mix of cofee, milk and caccao",
-        "assets/images/tree.jpg", 40.0, "coffee"),
+        "assets/images/tree.jpg", 40.00, "coffee"),
     Drink("cappuccino", "A mix of cofee, milk and caccao",
-        "assets/images/tree.jpg", 40.0, "milk"),
+        "assets/images/tree.jpg", 40.00, "milk"),
     Drink("cappuccino", "A mix of cofee, milk and caccao",
-        "assets/images/tree.jpg", 40.0, "tea"),
+        "assets/images/tree.jpg", 40.00, "tea"),
   ]);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 180, 132, 84),
+      backgroundColor: CustomColors.bgColor,
       body: SafeArea(
         child: Stack(children: [
           Positioned(
@@ -75,22 +77,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Container(
                     height: (MediaQuery.of(context).size.height * 2) / 3,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.16),
-                            blurRadius: 4.0,
-                            spreadRadius: 0,
-                            offset: const Offset(
-                              0,
-                              -4,
-                            ),
-                          )
-                        ],
-                        borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(20),
-                            topLeft: Radius.circular(20))),
+                    decoration: Decorations.bodyDecoration,
                     child: Tabs(drinks: drinks))
               ],
             ),
