@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:innovit_2cs_project_apptablette/pages/progress.dart';
 import 'package:innovit_2cs_project_apptablette/styles/theme.dart';
 import 'pages/home.dart';
 import 'pages/drink_details.dart';
@@ -17,8 +18,6 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  String btnName = "click";
-  int navIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -28,6 +27,7 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
+        "/progress": (_) => const Progress(),
         "/scan": (_) => const Scan(),
         "/drink-details": (_) => const DrinkDetails(),
         "/settings": (_) => const Settings()
@@ -48,7 +48,7 @@ class _MainAppState extends State<MainApp> {
               surface: CustomColors.bgColor,
               onSurface: CustomColors.bgColor)),
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: const Progress(),
     );
   }
 }
