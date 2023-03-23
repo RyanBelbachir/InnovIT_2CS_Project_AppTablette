@@ -4,5 +4,7 @@ class Drink {
   final double price;
   final String imageLink;
   final String category;
-  Drink(this.name, this.description, this.imageLink, this.price, this.category);
+  final String link;
+  Drink(this.name, this.description, this.imageLink, this.price, this.category,
+      this.link);
 }

@@ -3,6 +3,7 @@ import 'package:innovit_2cs_project_apptablette/styles/theme.dart';
 import 'pages/home.dart';
 import 'pages/drink_details.dart';
 import 'pages/settings.dart';
+import 'pages/scan.dart';
 
 void main() {
   runApp(const MainApp());
@@ -27,6 +28,7 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
+        "/scan": (_) => const Scan(),
         "/drink-details": (_) => const DrinkDetails(),
         "/settings": (_) => const Settings()
       },

@@ -16,12 +16,19 @@ class CustomColors {
 class Borders {
   static const BorderRadius borderRadius20 =
       BorderRadius.all(Radius.circular(20));
+  static const BorderRadius borderRadius100 =
+      BorderRadius.all(Radius.circular(100));
 }
 
 class Fonts {
   static const TextStyle bold40 = TextStyle(
       fontFamily: "Outfit",
       fontSize: 40,
+      fontWeight: FontWeight.bold,
+      color: CustomColors.blackColor);
+  static const TextStyle bold32 = TextStyle(
+      fontFamily: "Outfit",
+      fontSize: 32,
       fontWeight: FontWeight.bold,
       color: CustomColors.blackColor);
   static const TextStyle bold24 = TextStyle(
@@ -54,9 +61,9 @@ class Fonts {
       fontSize: 24,
       fontWeight: FontWeight.w500,
       color: CustomColors.blackColor);
-  static const TextStyle regular20 = TextStyle(
+  static const TextStyle regular16 = TextStyle(
       fontFamily: "Outfit",
-      fontSize: 20,
+      fontSize: 16,
       fontWeight: FontWeight.w400,
       color: CustomColors.blackColor);
   static const TextStyle light14 = TextStyle(
@@ -110,24 +117,13 @@ class Decorations {
     // ],
   );
   static Decoration bodyDecoration = const BoxDecoration(
-      color: Colors.white,
-      // boxShadow: [
-      //   BoxShadow(
-      //     color: Colors.black.withOpacity(0.16),
-      //     blurRadius: 4.0,
-      //     spreadRadius: 0,
-      //     offset: const Offset(
-      //       0,
-      //       -4,
-      //     ),
-      //   )
-      // ],
+      color: CustomColors.whiteColor,
       borderRadius: BorderRadius.only(
           topRight: Radius.circular(20), topLeft: Radius.circular(20)));
 }
 
 class CustomIcons {
-  static const Icon backIcon = Icon(Icons.arrow_back_ios);
+  static const Icon backIcon = Icon(Icons.arrow_back_ios, size: 25);
   static const Icon tempIcon = Icon(
     Icons.device_thermostat,
     color: CustomColors.blackColor,
