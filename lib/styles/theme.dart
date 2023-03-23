@@ -36,6 +36,11 @@ class Fonts {
       fontSize: 24,
       fontWeight: FontWeight.bold,
       color: CustomColors.blackColor);
+  static const TextStyle bold20 = TextStyle(
+      fontFamily: "Outfit",
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: CustomColors.blackColor);
   static const TextStyle bold24White = TextStyle(
       fontFamily: "Outfit",
       fontSize: 24,

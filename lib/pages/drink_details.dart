@@ -90,7 +90,7 @@ class _DrinkDetailsState extends State<DrinkDetails> {
                                       : "${sugar.round().toString()} spoons",
                             ),
                           ),
-                          Gaps.customVGap(48),
+                          Gaps.customVGap(72),
                           Center(
                             child: TextButton(
                                 style: ButtonStyle(

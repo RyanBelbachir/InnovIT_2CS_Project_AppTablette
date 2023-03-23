@@ -39,7 +39,7 @@ class _TabsState extends State<Tabs> {
                   children: widget.categories
                       .map(
                         (cat) => Container(
-                          padding: Paddings.padding8,
+                          padding: const EdgeInsets.all(4),
                           decoration: Decorations.bodyDecoration,
                           child: ListView.separated(
                               itemCount: widget.drinks

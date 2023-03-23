@@ -26,14 +26,13 @@ class _ScanState extends State<Scan> {
           const Back(),
           const Footer(),
           Padding(
-            padding: Paddings.padding16,
+            padding: const EdgeInsets.only(top: 120),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
                   "Please scan the QR code bellow using the payment App to proceed with payment",
-                  style: Fonts.bold24,
+                  style: Fonts.bold20,
                   textAlign: TextAlign.center,
                 ),
                 Gaps.customVGap(120),
