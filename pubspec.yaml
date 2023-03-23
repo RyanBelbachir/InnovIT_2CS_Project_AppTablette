@@ -1,0 +1,43 @@
+name: innovit_2cs_project_apptablette
+description: La partie frontend de l'application de distributeur mobile1 dans le carde de projet 2CS.
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ">=2.19.4 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  drop_shadow_image: ^0.9.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  flutter_launcher_icons: "^0.12.0"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "images/logo.png"
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+  fonts:
+    - family: Outfit@
+      fonts:
+        - asset: assets/fonts/outfit/Outfit-Black.ttf
+        - asset: assets/fonts/outfit/Outfit-Bold.ttf
+        - asset: assets/fonts/outfit/Outfit-ExtraBold.ttf
+        - asset: assets/fonts/outfit/Outfit-ExtraLight.ttf
+        - asset: assets/fonts/outfit/Outfit-Light.ttf
+        - asset: assets/fonts/outfit/Outfit-Medium.ttf
+        - asset: assets/fonts/outfit/Outfit-Regular.ttf
+        - asset: assets/fonts/outfit/Outfit-SemiBold.ttf
+        - asset: assets/fonts/outfit/Outfit-Thin.ttf
+    - family: Lobster
+      fonts:
+        - asset: assets/fonts/Lobster-Regular.ttf
