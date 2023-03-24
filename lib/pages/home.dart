@@ -1,7 +1,10 @@
+import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:innovit_2cs_project_apptablette/widgets/footer.dart';
 import '../widgets/tabs.dart';
 import '../bussiness/drink.dart';
 import '../styles/theme.dart';
+import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -103,7 +106,20 @@ class _HomePageState extends State<HomePage> {
               right: 16,
               child: IconButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed("/settings");
+                    screenLock(
+                        title: const Text("Please enter the PIN code",
+                            style: Fonts.bold24White),
+                        footer: const Padding(
+                          padding: EdgeInsets.only(top: 64),
+                          child: Footer(),
+                        ),
+                        maxRetries: 3,
+                        context: context,
+                        correctString: "123456",
+                        onUnlocked: () {
+                          Navigator.of(context).pushNamed("/settings");
+                        },
+                        retryDelay: const Duration(seconds: 60));
                   },
                   icon: CustomIcons.settingsIcon),
             ),
