@@ -41,6 +41,28 @@ class _ScanState extends State<Scan> {
                     data: drink!.link,
                     size: 280,
                   ),
+                ),
+                Gaps.gapV25,
+                Center(
+                  child: TextButton(
+                      style: ButtonStyle(
+                          alignment: Alignment.center,
+                          fixedSize:
+                              const MaterialStatePropertyAll(Size(260, 58)),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                          )),
+                          backgroundColor: const MaterialStatePropertyAll(
+                              CustomColors.greenColor)),
+                      onPressed: () {
+                        Navigator.of(context).pushNamed("/progress");
+                      },
+                      child: const Text(
+                        "Proceed",
+                        style: Fonts.bold24White,
+                      )),
                 )
               ],
             ),

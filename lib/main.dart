@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:innovit_2cs_project_apptablette/pages/bonne_appetit.dart';
 import 'package:innovit_2cs_project_apptablette/pages/progress.dart';
 import 'package:innovit_2cs_project_apptablette/styles/theme.dart';
 import 'pages/home.dart';
@@ -27,6 +28,8 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
+        "/home": (_) => const HomePage(),
+        "/bonne-appetit": (_) => const BonneAppetit(),
         "/progress": (_) => const Progress(),
         "/scan": (_) => const Scan(),
         "/drink-details": (_) => const DrinkDetails(),
@@ -48,7 +51,7 @@ class _MainAppState extends State<MainApp> {
               surface: CustomColors.bgColor,
               onSurface: CustomColors.bgColor)),
       debugShowCheckedModeBanner: false,
-      home: const Progress(),
+      home: const HomePage(),
     );
   }
 }
