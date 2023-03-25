@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:innovit_2cs_project_apptablette/pages/bonne_appetit.dart';
 import 'package:innovit_2cs_project_apptablette/pages/progress.dart';
+import 'package:innovit_2cs_project_apptablette/pages/recepients.dart';
+import 'package:innovit_2cs_project_apptablette/pages/technical_data.dart';
+import 'package:innovit_2cs_project_apptablette/pages/temps.dart';
 import 'package:innovit_2cs_project_apptablette/styles/theme.dart';
 import 'pages/home.dart';
 import 'pages/drink_details.dart';
+import 'pages/ingredients.dart';
 import 'pages/settings.dart';
 import 'pages/scan.dart';
 
@@ -33,7 +37,11 @@ class _MainAppState extends State<MainApp> {
         "/progress": (_) => const Progress(),
         "/scan": (_) => const Scan(),
         "/drink-details": (_) => const DrinkDetails(),
-        "/settings": (_) => const Settings()
+        "/settings": (_) => const Settings(),
+        "/technical-data": (_) => const TechnicalData(),
+        "/recipients": (_) => const Recipents(),
+        "/ingredients": (_) => const Ingredients(),
+        "/temps": (_) => const Temps()
       },
       theme: ThemeData(
           primaryColor: const Color(0xff251201),

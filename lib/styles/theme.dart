@@ -149,4 +149,6 @@ class CustomIcons {
     color: Colors.black,
     size: 40,
   );
+  static const Icon forwardIcon =
+      Icon(Icons.arrow_forward_ios, color: Colors.black, size: 25);
 }

@@ -118,7 +118,9 @@ class _SettingsState extends State<Settings> {
                         )),
                         backgroundColor: const MaterialStatePropertyAll(
                             CustomColors.blackColor)),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed("/technical-data");
+                    },
                     child: const Text(
                       "Technical data",
                       style: Fonts.bold24White,
