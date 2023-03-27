@@ -31,7 +31,7 @@ class DrinkCardState extends State<DrinkCard> {
               ClipRRect(
                 borderRadius: Borders.borderRadius20,
                 child: DropShadowImage(
-                  image: Image.asset(
+                  image: Image.network(
                     widget.drink.imageLink,
                     width: 100,
                     height: 100,

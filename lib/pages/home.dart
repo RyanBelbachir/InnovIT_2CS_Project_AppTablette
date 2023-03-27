@@ -1,10 +1,38 @@
-import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:innovit_2cs_project_apptablette/widgets/footer.dart';
 import '../widgets/tabs.dart';
 import '../bussiness/drink.dart';
 import '../styles/theme.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
+import 'package:http/http.dart' as http;
+
+Future<List<Drink>> fetchDrinks() async {
+  final url =
+      Uri.parse('https://daf1-105-101-134-89.eu.ngrok.io/Distributeur/drinks');
+  final response = await http.get(url);
+  // final response = await Client().send(request);
+  if (response.statusCode == 200) {
+    List myList = jsonDecode(response.body);
+    return myList.map((e) => Drink.fromJson(e)).toList();
+  } else {
+    throw Exception('failed to load drinks,error code: ${response.statusCode}');
+  }
+}
+
+Future<String> fetchVerouCode() async {
+  final url = Uri.parse(
+      'https://daf1-105-101-134-89.eu.ngrok.io/Distributeur/log?ditributeurId=0A1Z4');
+  final response = await http.get(url);
+  // final response = await Client().send(request);
+  if (response.statusCode == 200) {
+    Map<String, dynamic> json = jsonDecode(response.body);
+    return json["codeverou"].toString();
+  } else {
+    throw Exception('failed to load drinks,error code: ${response.statusCode}');
+  }
+}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,86 +42,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // static data
-  final List<Drink> drinks = List.of([
-    Drink(
-        "cappuccino",
-        "An espresso-based coffee drink that originated in Italy and is traditionally prepared with steamed milk foam. Variations of the drink involve the use of cream instead of milk, using non-dairy milk substitutes and flavouring with cinnamon or chocolate powder.",
-        "assets/images/cappucino.jpg",
-        40.00,
-        "coffee",
-        "https://medium.com/podiihq/generating-qr-code-in-a-flutter-app-50de15e39830"),
-    Drink(
-        "cappuccino",
-        "A mix of cofee, milk and caccao",
-        "assets/images/cappucino.jpg",
-        40.00,
-        "coffee",
-        "https://medium.com/podiihq/generating-qr-code-in-a-flutter-app-50de15e39830"),
-    Drink(
-        "cappuccino",
-        "A mix of cofee, milk and caccao",
-        "assets/images/cappucino.jpg",
-        40.00,
-        "coffee",
-        "https://medium.com/podiihq/generating-qr-code-in-a-flutter-app-50de15e39830"),
-    Drink(
-        "cappuccino",
-        "A mix of cofee, milk and caccao",
-        "assets/images/cappucino.jpg",
-        40.00,
-        "coffee",
-        "https://medium.com/podiihq/generating-qr-code-in-a-flutter-app-50de15e39830"),
-    Drink(
-        "cappuccino",
-        "A mix of cofee, milk and caccao",
-        "assets/images/cappucino.jpg",
-        40.00,
-        "coffee",
-        "https://medium.com/podiihq/generating-qr-code-in-a-flutter-app-50de15e39830"),
-    Drink(
-        "cappuccino",
-        "A mix of cofee, milk and caccao",
-        "assets/images/cappucino.jpg",
-        40.00,
-        "coffee",
-        "https://medium.com/podiihq/generating-qr-code-in-a-flutter-app-50de15e39830"),
-    Drink(
-        "cappuccino",
-        "A mix of cofee, milk and caccao",
-        "assets/images/cappucino.jpg",
-        40.00,
-        "coffee",
-        "https://medium.com/podiihq/generating-qr-code-in-a-flutter-app-50de15e39830"),
-    Drink(
-        "cappuccino",
-        "A mix of cofee, milk and caccao",
-        "assets/images/cappucino.jpg",
-        40.00,
-        "coffee",
-        "https://medium.com/podiihq/generating-qr-code-in-a-flutter-app-50de15e39830"),
-    Drink(
-        "cappuccino",
-        "A mix of cofee, milk and caccao",
-        "assets/images/cappucino.jpg",
-        40.00,
-        "coffee",
-        "https://medium.com/podiihq/generating-qr-code-in-a-flutter-app-50de15e39830"),
-    Drink(
-        "cappuccino",
-        "A mix of cofee, milk and caccao",
-        "assets/images/cappucino.jpg",
-        40.00,
-        "milk",
-        "https://medium.com/podiihq/generating-qr-code-in-a-flutter-app-50de15e39830"),
-    Drink(
-        "cappuccino",
-        "A mix of cofee, milk and caccao",
-        "assets/images/cappucino.jpg",
-        40.00,
-        "tea",
-        "https://medium.com/podiihq/generating-qr-code-in-a-flutter-app-50de15e39830"),
-  ]);
+  late Future<List<Drink>> drinks;
+  late Future<String> codeVerou;
+  @override
+  void initState() {
+    super.initState();
+    drinks = fetchDrinks();
+    codeVerou = fetchVerouCode();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,27 +59,36 @@ class _HomePageState extends State<HomePage> {
           color: CustomColors.bgColor,
           child: Stack(children: [
             Positioned(
-              top: 16,
-              right: 16,
-              child: IconButton(
-                  onPressed: () {
-                    screenLock(
-                        title: const Text("Please enter the PIN code",
-                            style: Fonts.bold24White),
-                        footer: const Padding(
-                          padding: EdgeInsets.only(top: 64),
-                          child: Footer(),
-                        ),
-                        maxRetries: 3,
-                        context: context,
-                        correctString: "123456",
-                        onUnlocked: () {
-                          Navigator.of(context).pushNamed("/settings");
-                        },
-                        retryDelay: const Duration(seconds: 60));
-                  },
-                  icon: CustomIcons.settingsIcon),
-            ),
+                top: 16,
+                right: 16,
+                child: FutureBuilder(
+                    future: codeVerou,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return IconButton(
+                            onPressed: () {
+                              screenLock(
+                                  title: const Text("Please enter the PIN code",
+                                      style: Fonts.bold24White),
+                                  footer: const Padding(
+                                    padding: EdgeInsets.only(top: 64),
+                                    child: Footer(),
+                                  ),
+                                  maxRetries: 3,
+                                  context: context,
+                                  correctString: snapshot.data!,
+                                  onUnlocked: () {
+                                    Navigator.of(context)
+                                        .pushNamed("/settings");
+                                  },
+                                  retryDelay: const Duration(seconds: 60));
+                            },
+                            icon: CustomIcons.settingsIcon);
+                      } else if (snapshot.hasError) {
+                        return const Text("");
+                      }
+                      return const Text("");
+                    })),
             Padding(
               padding: Paddings.paddingTop16,
               child: Column(
@@ -156,7 +122,30 @@ class _HomePageState extends State<HomePage> {
                   Container(
                       height: (MediaQuery.of(context).size.height * 2) / 3,
                       decoration: Decorations.bodyDecoration,
-                      child: Tabs(drinks: drinks))
+                      child: FutureBuilder(
+                        future: drinks,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Tabs(drinks: snapshot.data!);
+                          } else if (snapshot.hasError) {
+                            return SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Center(
+                                  child: Text(
+                                "${snapshot.error}",
+                                style: Fonts.bold24Red,
+                              )),
+                            );
+                          }
+                          return SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: const Center(
+                                child: CircularProgressIndicator(
+                              color: CustomColors.darkCoffeeColor,
+                            )),
+                          );
+                        },
+                      ))
                 ],
               ),
             ),

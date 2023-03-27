@@ -3,7 +3,6 @@ import '/styles/theme.dart';
 import '../widgets/back_arrow.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../widgets/footer.dart';
-import '../bussiness/drink.dart';
 
 class Scan extends StatefulWidget {
   const Scan({super.key});
@@ -13,10 +12,14 @@ class Scan extends StatefulWidget {
 }
 
 class _ScanState extends State<Scan> {
-  late Drink? drink;
+  late int commandeId;
+  late String link;
+  @override
   @override
   Widget build(BuildContext context) {
-    drink = ModalRoute.of(context)!.settings.arguments as Drink;
+    commandeId = ModalRoute.of(context)!.settings.arguments as int;
+    link =
+        "https://daf1-105-101-134-89.eu.ngrok.ioDistributeur/command/$commandeId";
     return Scaffold(
         body: SafeArea(
             child: Container(
@@ -35,10 +38,15 @@ class _ScanState extends State<Scan> {
                   style: Fonts.bold20,
                   textAlign: TextAlign.center,
                 ),
-                Gaps.customVGap(120),
+                // Text(
+                //   commandeId.toString(),
+                //   style: Fonts.bold20,
+                //   textAlign: TextAlign.center,
+                // ),
+                Gaps.customVGap(64),
                 Center(
                   child: QrImage(
-                    data: drink!.link,
+                    data: link,
                     size: 280,
                   ),
                 ),
