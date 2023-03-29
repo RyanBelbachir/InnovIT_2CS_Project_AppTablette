@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:innovit_2cs_project_apptablette/widgets/footer.dart';
 import '../widgets/tabs.dart';
 import '../bussiness/drink.dart';
@@ -9,8 +9,7 @@ import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<Drink>> fetchDrinks() async {
-  final url =
-      Uri.parse('https://daf1-105-101-134-89.eu.ngrok.io/Distributeur/drinks');
+  final url = Uri.parse('${dotenv.env["API_URL"]}/Distributeur/drinks');
   final response = await http.get(url);
   // final response = await Client().send(request);
   if (response.statusCode == 200) {
@@ -23,7 +22,7 @@ Future<List<Drink>> fetchDrinks() async {
 
 Future<String> fetchVerouCode() async {
   final url = Uri.parse(
-      'https://daf1-105-101-134-89.eu.ngrok.io/Distributeur/log?ditributeurId=0A1Z4');
+      '${dotenv.env["API_URL"]}/Distributeur/log?ditributeurId=0A1Z4');
   final response = await http.get(url);
   // final response = await Client().send(request);
   if (response.statusCode == 200) {

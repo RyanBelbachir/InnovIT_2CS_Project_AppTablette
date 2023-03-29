@@ -20,6 +20,7 @@ dependencies:
   flutter_svg: ^2.0.4
   flutter_screen_lock: ^9.0.1
   camera: ^0.10.3+2
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   flutter_test:
@@ -36,6 +37,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - .env
   fonts:
     - family: Outfit@
       fonts:

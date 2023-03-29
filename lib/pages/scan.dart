@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '/styles/theme.dart';
 import '../widgets/back_arrow.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -64,8 +65,7 @@ class _ScanState extends State<Scan> {
   @override
   Widget build(BuildContext context) {
     commandeId = ModalRoute.of(context)!.settings.arguments as int;
-    link =
-        "https://daf1-105-101-134-89.eu.ngrok.ioDistributeur/command/$commandeId";
+    link = "${dotenv.env["API_URL"]}Distributeur/command/$commandeId";
     return Scaffold(
         body: SafeArea(
             child: Container(

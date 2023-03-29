@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../bussiness/category.dart';
@@ -5,8 +6,7 @@ import '../bussiness/commande.dart';
 
 Future<http.Response> sendSelectedDrink(
     int idRecette, int idIngredient, String quantiy) async {
-  final url =
-      Uri.parse('https://daf1-105-101-134-89.eu.ngrok.io/Distributeur/command');
+  final url = Uri.parse('${dotenv.env["API_URL"]}/Distributeur/command');
   return http.post(url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -28,8 +28,7 @@ Future<Commande> getCommande(id, sugar) async {
 }
 
 Future<List<Category>> fetchCategories() async {
-  final url = Uri.parse(
-      'https://daf1-105-101-134-89.eu.ngrok.io/Distributeur/categories');
+  final url = Uri.parse('${dotenv.env["API_URL"]}/Distributeur/categories');
   final response = await http.get(url);
   // final response = await Client().send(request);
   if (response.statusCode == 200) {

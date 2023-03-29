@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:innovit_2cs_project_apptablette/pages/bonne_appetit.dart';
 import 'package:innovit_2cs_project_apptablette/pages/progress.dart';
 import 'package:innovit_2cs_project_apptablette/pages/recepients.dart';
@@ -11,7 +12,8 @@ import 'pages/ingredients.dart';
 import 'pages/settings.dart';
 import 'pages/scan.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load();
   runApp(const MainApp());
 }
 
