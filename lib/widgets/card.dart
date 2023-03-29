@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:drop_shadow_image/drop_shadow_image.dart';
-import 'package:innovit_2cs_project_apptablette/helpers/extentions.dart';
+import 'package:innovit_2cs_project_apptablette/utils/extentions.dart';
 import '../styles/theme.dart';
 import '../bussiness/drink.dart';
 

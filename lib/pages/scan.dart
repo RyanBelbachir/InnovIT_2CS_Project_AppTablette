@@ -3,6 +3,7 @@ import '/styles/theme.dart';
 import '../widgets/back_arrow.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../widgets/footer.dart';
+import 'package:camera/camera.dart';
 
 class Scan extends StatefulWidget {
   const Scan({super.key});
@@ -14,7 +15,52 @@ class Scan extends StatefulWidget {
 class _ScanState extends State<Scan> {
   late int commandeId;
   late String link;
+
+  dynamic scanResults; // for camera
+  late CameraController camera;
+
+  bool isDetecting = false;
+  final CameraLensDirection direction = CameraLensDirection.front;
+
   @override
+  void initState() {
+    super.initState();
+    initializeCamera();
+  }
+
+  @override
+  void dispose() {
+    camera.dispose();
+    super.dispose();
+  }
+
+  //function to get the front camera
+  Future<CameraDescription> getCamera(CameraLensDirection direction) async {
+    return await availableCameras().then(
+      (List<CameraDescription> cameras) => cameras.firstWhere(
+        (CameraDescription camera) => camera.lensDirection == direction,
+      ),
+    );
+  }
+
+  // fucntion to initialize the camera
+  void initializeCamera() async {
+    camera = CameraController(
+      await getCamera(direction),
+      ResolutionPreset.medium,
+    );
+    await camera.initialize();
+    camera.startImageStream((CameraImage image) {
+      if (isDetecting) return;
+      isDetecting = true;
+      try {} catch (e) {
+        rethrow;
+      } finally {
+        isDetecting = false;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     commandeId = ModalRoute.of(context)!.settings.arguments as int;
@@ -44,12 +90,13 @@ class _ScanState extends State<Scan> {
                 //   textAlign: TextAlign.center,
                 // ),
                 Gaps.customVGap(64),
-                Center(
-                  child: QrImage(
-                    data: link,
-                    size: 280,
-                  ),
-                ),
+                CameraPreview(camera),
+                // Center(
+                //   child: QrImage(
+                //     data: link,
+                //     size: 280,
+                //   ),
+                // ),
                 Gaps.gapV25,
                 Center(
                   child: TextButton(

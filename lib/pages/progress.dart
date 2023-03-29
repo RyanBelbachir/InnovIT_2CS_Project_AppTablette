@@ -48,7 +48,7 @@ class _ProgressState extends State<Progress> {
     return File('${dir.path}/$filename');
   }
 
-  Widget percentage() {
+  Widget percentageText() {
     if (progress == 1) {
       return Text("${(progress * 100).toStringAsFixed(0)}% completed",
           style: const TextStyle(
@@ -90,7 +90,7 @@ class _ProgressState extends State<Progress> {
               percent: progress,
             ),
             Gaps.gapV16,
-            Center(child: percentage()),
+            Center(child: percentageText()),
             Center(
                 child: IconButton(
                     onPressed: () {

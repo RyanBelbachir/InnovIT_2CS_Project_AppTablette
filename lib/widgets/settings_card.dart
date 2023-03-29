@@ -37,6 +37,5 @@ class _SettingsCardState extends State<SettingsCard> {
                 ]),
           )),
     );
-    ;
   }
 }

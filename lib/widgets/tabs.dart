@@ -1,25 +1,10 @@
-import 'dart:convert';
 import "package:flutter/material.dart";
-import 'package:innovit_2cs_project_apptablette/helpers/extentions.dart';
+import 'package:innovit_2cs_project_apptablette/utils/extentions.dart';
 import '/bussiness/drink.dart';
 import '/bussiness/category.dart';
 import '/widgets/card.dart';
 import '/styles/theme.dart';
-import 'package:http/http.dart' as http;
-
-Future<List<Category>> fetchCategories() async {
-  final url = Uri.parse(
-      'https://daf1-105-101-134-89.eu.ngrok.io/Distributeur/categories');
-  final response = await http.get(url);
-  // final response = await Client().send(request);
-  if (response.statusCode == 200) {
-    List myList = jsonDecode(response.body);
-    return myList.map((e) => Category.fromJson(e)).toList();
-  } else {
-    throw Exception(
-        'failed to load categories,error code: ${response.statusCode}');
-  }
-}
+import '../utils/functions.dart';
 
 class Tabs extends StatefulWidget {
   final List<Drink> drinks;
@@ -101,7 +86,6 @@ class _TabsState extends State<Tabs> {
                       style: Fonts.bold24Red,
                     )),
                   );
-                  ;
                 }
                 return SizedBox(
                   width: MediaQuery.of(context).size.width,

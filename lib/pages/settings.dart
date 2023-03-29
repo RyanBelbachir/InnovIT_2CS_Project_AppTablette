@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:innovit_2cs_project_apptablette/widgets/back_arrow.dart';
 import '../styles/theme.dart';
 
 class Settings extends StatefulWidget {

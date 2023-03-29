@@ -1,7 +1,7 @@
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:innovit_2cs_project_apptablette/styles/theme.dart';
-import 'package:innovit_2cs_project_apptablette/widgets/settings-card.dart';
+import 'package:innovit_2cs_project_apptablette/widgets/settings_card.dart';
 
 import '../widgets/back_arrow.dart';
 

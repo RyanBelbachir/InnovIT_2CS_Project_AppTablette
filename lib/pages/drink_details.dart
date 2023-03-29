@@ -1,27 +1,11 @@
-import 'dart:convert';
+import '../utils/functions.dart';
 import '../bussiness/commande.dart';
 import 'package:flutter/material.dart';
-import 'package:innovit_2cs_project_apptablette/helpers/extentions.dart';
+import 'package:innovit_2cs_project_apptablette/utils/extentions.dart';
 import 'package:innovit_2cs_project_apptablette/widgets/back_arrow.dart';
 import '/bussiness/drink.dart';
 import '/styles/theme.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
-import 'package:http/http.dart' as http;
-
-Future<http.Response> sendSelectedDrink(
-    int idRecette, int idIngredient, String quantiy) async {
-  final url =
-      Uri.parse('https://daf1-105-101-134-89.eu.ngrok.io/Distributeur/command');
-  return http.post(url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'idRecette': idRecette,
-        'idIngredient': idIngredient,
-        'quantity': quantiy
-      }));
-}
 
 class DrinkDetails extends StatefulWidget {
   const DrinkDetails({super.key});
@@ -43,16 +27,6 @@ class _DrinkDetailsState extends State<DrinkDetails> {
     setState(() {
       sugar = newSugar;
     });
-  }
-
-  Future<Commande> getCommande() async {
-    http.Response response =
-        await sendSelectedDrink(drink.id, 1, sugar.toString());
-    if (response.statusCode == 200) {
-      return Commande.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed to get commande code :  ${response.statusCode} ');
-    }
   }
 
   @override
@@ -132,7 +106,7 @@ class _DrinkDetailsState extends State<DrinkDetails> {
                                             CustomColors.greenColor)),
                                 onPressed: () {
                                   setState(() {
-                                    commande = getCommande();
+                                    commande = getCommande(drink.id, sugar);
                                   });
                                 },
                                 child: Row(
