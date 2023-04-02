@@ -1,4 +1,4 @@
-package com.example.fluttertest
+package com.example.smartbev
 
 import io.flutter.embedding.android.FlutterActivity
 
