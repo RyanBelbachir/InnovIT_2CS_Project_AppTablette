@@ -16,8 +16,14 @@ class Progress extends StatefulWidget {
 }
 
 class _ProgressState extends State<Progress> {
+  late String videoUrl;
   double progress = 0;
   Color barColor = CustomColors.blackColor;
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   Future download() async {
     const url =
@@ -66,44 +72,47 @@ class _ProgressState extends State<Progress> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
-      child: Stack(children: [
-        const Footer(),
-        Container(
-          padding: Paddings.padding16,
-          decoration: BoxDecoration(
-            color: CustomColors.bgColor,
+    videoUrl = ModalRoute.of(context)!.settings.arguments as String;
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+          body: SafeArea(
+        child: Stack(children: [
+          const Footer(),
+          Container(
+            padding: Paddings.padding16,
+            decoration: BoxDecoration(
+              color: CustomColors.bgColor,
+            ),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              const Text(
+                "Please wait while your drink is being prepared",
+                style: Fonts.bold20,
+                textAlign: TextAlign.center,
+              ),
+              Gaps.customVGap(60),
+              LinearPercentIndicator(
+                progressColor: barColor,
+                backgroundColor: CustomColors.whiteColor,
+                lineHeight: 16,
+                barRadius: const Radius.circular(20),
+                percent: progress,
+              ),
+              Gaps.gapV16,
+              Center(child: percentageText()),
+              Center(
+                  child: IconButton(
+                      onPressed: () {
+                        download();
+                      },
+                      icon: const Icon(Icons.download))),
+              Gaps.customVGap(90),
+              Video(url: videoUrl)
+            ]),
           ),
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            const Text(
-              "Please wait while your drink is being prepared",
-              style: Fonts.bold20,
-              textAlign: TextAlign.center,
-            ),
-            Gaps.customVGap(60),
-            LinearPercentIndicator(
-              progressColor: barColor,
-              backgroundColor: CustomColors.whiteColor,
-              lineHeight: 16,
-              barRadius: const Radius.circular(20),
-              percent: progress,
-            ),
-            Gaps.gapV16,
-            Center(child: percentageText()),
-            Center(
-                child: IconButton(
-                    onPressed: () {
-                      download();
-                    },
-                    icon: const Icon(Icons.download))),
-            Gaps.customVGap(90),
-            const Video(
-                url:
-                    "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4")
-          ]),
-        ),
-      ]),
-    ));
+        ]),
+      )),
+    );
   }
 }

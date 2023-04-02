@@ -23,13 +23,12 @@ class _VideoState extends State<Video> {
 
     initializeVideoPlayerFuture = controller.initialize();
     controller.play();
-    controller.setLooping(true);
+    controller.setLooping(false);
   }
 
   @override
   void dispose() {
     controller.dispose();
-
     super.dispose();
   }
 

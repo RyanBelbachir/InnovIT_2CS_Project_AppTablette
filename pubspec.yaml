@@ -21,6 +21,7 @@ dependencies:
   flutter_screen_lock: ^9.0.1
   camera: ^0.10.3+2
   flutter_dotenv: ^5.0.2
+  image_picker: ^0.8.7+1
 
 dev_dependencies:
   flutter_test:
