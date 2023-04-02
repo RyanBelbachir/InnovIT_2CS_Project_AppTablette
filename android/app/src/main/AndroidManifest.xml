@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.fluttertest">
+    package="com.example.smartbev">
    <application
-        android:label="fluttertest"
+        android:label="SmartBew"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
