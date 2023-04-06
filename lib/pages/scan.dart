@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import "package:flutter/material.dart";
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import '/styles/theme.dart';
 import '../widgets/back_arrow.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -100,23 +98,18 @@ class _ScanState extends State<Scan> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // const Text(
-                //   "Please scan the QR code bellow using the payment App to proceed with payment",
-                //   style: Fonts.bold20,
-                //   textAlign: TextAlign.center,
-                // ),
-                // Text(
-                //   commandeId.toString(),
-                //   style: Fonts.bold20,
-                //   textAlign: TextAlign.center,
-                // ),
-                // Gaps.customVGap(64),
-                // Center(
-                //   child: QrImage(
-                //     data: link,
-                //     size: 280,
-                //   ),
-                // ),
+                const Text(
+                  "Please scan the QR code bellow using the payment App to proceed with payment",
+                  style: Fonts.bold20,
+                  textAlign: TextAlign.center,
+                ),
+                Gaps.customVGap(64),
+                Center(
+                  child: QrImage(
+                    data: link,
+                    size: 280,
+                  ),
+                ),
                 Gaps.gapV25,
                 Center(
                     child: FutureBuilder(
@@ -124,49 +117,41 @@ class _ScanState extends State<Scan> {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       videoUrl = getVideoUrl(snapshot.data!);
-                      return Column(
-                        children: [
-                          Container(
-                              height: 200,
-                              width: 200,
-                              child: Image.file(File(snapshot.data!.path),
-                                  scale: 0.2)),
-                          FutureBuilder(
-                              future: videoUrl,
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  //print(snapshot.data!);
-                                  return TextButton(
-                                      style: ButtonStyle(
-                                          alignment: Alignment.center,
-                                          fixedSize:
-                                              const MaterialStatePropertyAll(
-                                                  Size(260, 58)),
-                                          shape: MaterialStateProperty.all<
-                                                  RoundedRectangleBorder>(
-                                              RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(18.0),
-                                          )),
-                                          backgroundColor:
-                                              const MaterialStatePropertyAll(
-                                                  CustomColors.greenColor)),
-                                      onPressed: () {
-                                        Navigator.of(context).pushNamed(
-                                            "/progress",
-                                            arguments: snapshot.data!);
-                                      },
-                                      child: const Text(
-                                        "Proceed",
-                                        style: Fonts.bold24White,
-                                      ));
-                                } else if (snapshot.hasError) {
-                                  return const Text("");
-                                }
-                                return const Text("");
-                              }),
-                        ],
-                      );
+                      return FutureBuilder(
+                          future: videoUrl,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              //print(snapshot.data!);
+                              return TextButton(
+                                  style: ButtonStyle(
+                                      alignment: Alignment.center,
+                                      fixedSize: const MaterialStatePropertyAll(
+                                          Size(260, 58)),
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                      )),
+                                      backgroundColor:
+                                          const MaterialStatePropertyAll(
+                                              CustomColors.greenColor)),
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed("/progress",
+                                        arguments: {
+                                          "videoUrl": snapshot.data!,
+                                          "commandeId": commandeId
+                                        });
+                                  },
+                                  child: const Text(
+                                    "Proceed",
+                                    style: Fonts.bold24White,
+                                  ));
+                            } else if (snapshot.hasError) {
+                              return const Text("");
+                            }
+                            return const Text("");
+                          });
                     } else if (snapshot.hasError) {
                       return const Text("");
                     }
