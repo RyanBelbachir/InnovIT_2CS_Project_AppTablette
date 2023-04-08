@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -24,7 +23,7 @@ class _ProgressState extends State<Progress> {
   Color barColor = CustomColors.blackColor;
 
   void testSteps() async {
-    await getSteps(1).then((value) => print(value));
+    await getSteps(commandeId).then((value) => print(value));
   }
 
   @override
@@ -125,6 +124,7 @@ class _ProgressState extends State<Progress> {
     videoUrl = arguments["videoUrl"];
     commandeId = arguments["commandeId"];
     testSteps();
+
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
