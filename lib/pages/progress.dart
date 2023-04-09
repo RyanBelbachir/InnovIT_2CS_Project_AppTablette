@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -51,23 +52,45 @@ class _ProgressState extends State<Progress> {
   }
 
   void getProgress() async {
-    const host = '169.254.118.150';
+    const host = '172.20.10.3';
     const port = 5000;
-    //final data = {'message': 'Hello, Raspberry Pi!'};
-    final data = await getSteps(commandeId);
+    //final data = await getSteps(commandeId);
+    final data = {
+      "step1": "GET_GOBELET",
+      "step2": "REHEAT",
+      "step3": {"step1": "VERSER_BOISSON_1", "step2": "VERSER_QUANT_2"},
+      "step4": {"step1": "VERSER_TOPPING_1", "step2": "VERSER_QUANT_2"},
+      "step5": "GET_SPOON",
+    };
 
-    //final json = jsonEncode(data);
+    final json = jsonEncode(data);
 
     Socket.connect(host, port).then((client) {
       print('Connecté au Raspberry Pi');
-      client.write(data);
-      client.listen((data) {
+      client.write(json);
+      client.listen((List<int> data) {
         print('Données reçues du Raspberry Pi : $data');
-        client.close();
-      });
-
-      client.done.then((_) {
-        print('Déconnecté du Raspberry Pi');
+        List<int> message = data;
+        String decodedMessage = String.fromCharCodes(message);
+        print(decodedMessage);
+        final temp = double.parse(decodedMessage);
+        if (temp != 100.0) {
+          setState(() {
+            progress = temp / 100;
+          });
+        } else {
+          setState(() {
+            progress = 1;
+            barColor = CustomColors.greenColor;
+          });
+          Timer(const Duration(seconds: 2), () {
+            Navigator.of(context).pushNamed("/bonne-appetit");
+          });
+          client.close();
+          client.done.then((_) {
+            print('Déconnecté du Raspberry Pi');
+          });
+        }
       });
     });
   }
@@ -123,7 +146,8 @@ class _ProgressState extends State<Progress> {
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     videoUrl = arguments["videoUrl"];
     commandeId = arguments["commandeId"];
-    testSteps();
+    //testSteps();
+    getProgress();
 
     return WillPopScope(
       onWillPop: () async => false,
@@ -153,12 +177,6 @@ class _ProgressState extends State<Progress> {
               ),
               Gaps.gapV16,
               Center(child: percentageText()),
-              Center(
-                  child: IconButton(
-                      onPressed: () {
-                        download();
-                      },
-                      icon: const Icon(Icons.download))),
               Gaps.customVGap(90),
               Video(url: videoUrl)
             ]),
