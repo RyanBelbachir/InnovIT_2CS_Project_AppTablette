@@ -156,6 +156,18 @@ class _ProgressState extends State<Progress> {
     // });
   }
 
+  Widget desplayPreparationError() {
+    if (preparationError != null) {
+      return Text(
+        "preparation failed : $preparationError",
+        style: Fonts.bold24Red,
+        textAlign: TextAlign.center,
+      );
+    } else {
+      return Container();
+    }
+  }
+
   Future download() async {
     const url =
         "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4";
@@ -239,11 +251,7 @@ class _ProgressState extends State<Progress> {
               Gaps.gapV16,
               Center(child: percentageText()),
               Gaps.gapV16,
-              Text(
-                preparationError!,
-                style: Fonts.bold24Red,
-                textAlign: TextAlign.center,
-              ),
+              desplayPreparationError(),
               Gaps.customVGap(90),
               Video(url: videoUrl)
             ]),
