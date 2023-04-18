@@ -22,6 +22,7 @@ class _ProgressState extends State<Progress> {
   late int commandeId;
   double progress = 0;
   Color barColor = CustomColors.blackColor;
+  String? preparationError;
 
   void testSteps() async {
     await getSteps(commandeId).then((value) => print(value));
@@ -73,18 +74,33 @@ class _ProgressState extends State<Progress> {
         List<int> message = data;
         String decodedMessage = String.fromCharCodes(message);
         print(decodedMessage);
-        final temp = double.parse(decodedMessage);
-        if (temp != 100.0) {
+        try {
+          final temp = double.parse(decodedMessage);
+          if (temp != 100.0) {
+            setState(() {
+              progress = temp / 100;
+            });
+          } else {
+            setState(() {
+              progress = 1;
+              barColor = CustomColors.greenColor;
+            });
+            Timer(const Duration(seconds: 2), () {
+              Navigator.of(context).pushNamed("/bonne-appetit");
+            });
+            client.close();
+            client.done.then((_) {
+              print('Déconnecté du Raspberry Pi');
+            });
+          }
+        } catch (e) {
+          // handle errors during preparation
           setState(() {
-            progress = temp / 100;
+            preparationError = decodedMessage;
+            // to display the error to the user
           });
-        } else {
-          setState(() {
-            progress = 1;
-            barColor = CustomColors.greenColor;
-          });
-          Timer(const Duration(seconds: 2), () {
-            Navigator.of(context).pushNamed("/bonne-appetit");
+          Timer(const Duration(seconds: 5), () {
+            Navigator.of(context).pushNamed("/home");
           });
           client.close();
           client.done.then((_) {
@@ -177,6 +193,12 @@ class _ProgressState extends State<Progress> {
               ),
               Gaps.gapV16,
               Center(child: percentageText()),
+              Gaps.gapV16,
+              Text(
+                preparationError!,
+                style: Fonts.bold24Red,
+                textAlign: TextAlign.center,
+              ),
               Gaps.customVGap(90),
               Video(url: videoUrl)
             ]),
