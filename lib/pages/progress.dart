@@ -28,6 +28,17 @@ class _ProgressState extends State<Progress> {
     await getSteps(commandeId).then((value) => print(value));
   }
 
+  bool isInitialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (!isInitialized) {
+      isInitialized = true;
+      getProgress();
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -226,7 +237,6 @@ class _ProgressState extends State<Progress> {
     videoUrl = arguments["videoUrl"];
     commandeId = arguments["commandeId"];
     //testSteps();
-    getProgress();
 
     return WillPopScope(
       onWillPop: () async => false,
