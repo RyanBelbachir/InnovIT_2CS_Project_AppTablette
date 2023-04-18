@@ -85,12 +85,12 @@ class _ProgressState extends State<Progress> {
               progress = 1;
               barColor = CustomColors.greenColor;
             });
-            Timer(const Duration(seconds: 2), () {
-              Navigator.of(context).pushNamed("/bonne-appetit");
-            });
             client.close();
             client.done.then((_) {
               print('Déconnecté du Raspberry Pi');
+            });
+            Timer(const Duration(seconds: 2), () {
+              Navigator.of(context).pushNamed("/bonne-appetit");
             });
           }
         } catch (e) {
