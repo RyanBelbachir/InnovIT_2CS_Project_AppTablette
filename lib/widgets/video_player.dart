@@ -23,6 +23,7 @@ class _VideoState extends State<Video> {
 
     initializeVideoPlayerFuture = controller.initialize();
     controller.play();
+    controller.setVolume(0);
     controller.setLooping(false);
   }
 

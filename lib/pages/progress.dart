@@ -127,50 +127,6 @@ class _ProgressState extends State<Progress> {
     socketSubscription = socket.listen((List<int> data) {
       handleSocketData(socket, data, socketSubscription);
     });
-
-    // Socket.connect(host, port).then((client) {
-    //   print('Connecté au Raspberry Pi');
-    //   client.write(json);
-    //   client.listen((List<int> data) {
-    //     print('Données reçues du Raspberry Pi : $data');
-    //     List<int> message = data;
-    //     String decodedMessage = String.fromCharCodes(message);
-    //     print(decodedMessage);
-    //     try {
-    //       final temp = double.parse(decodedMessage);
-    //       if (temp != 100.0) {
-    //         setState(() {
-    //           progress = temp / 100;
-    //         });
-    //       } else {
-    //         setState(() {
-    //           progress = 1;
-    //           barColor = CustomColors.greenColor;
-    //         });
-    //         client.close();
-    //         client.done.then((_) {
-    //           print('Déconnecté du Raspberry Pi');
-    //         });
-    //         Timer(const Duration(seconds: 2), () {
-    //           Navigator.of(context).pushNamed("/bonne-appetit");
-    //         });
-    //       }
-    //     } catch (e) {
-    //       // handle errors during preparation
-    //       setState(() {
-    //         preparationError = decodedMessage;
-    //         // to display the error to the user
-    //       });
-    //       client.close();
-    //       client.done.then((_) {
-    //         print('Déconnecté du Raspberry Pi');
-    //       });
-    //       Timer(const Duration(seconds: 5), () {
-    //         Navigator.of(context).pushNamed("/home");
-    //       });
-    //     }
-    //   });
-    // });
   }
 
   Widget desplayPreparationError() {
