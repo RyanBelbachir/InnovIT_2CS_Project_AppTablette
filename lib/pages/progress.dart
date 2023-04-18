@@ -99,12 +99,12 @@ class _ProgressState extends State<Progress> {
             preparationError = decodedMessage;
             // to display the error to the user
           });
-          Timer(const Duration(seconds: 5), () {
-            Navigator.of(context).pushNamed("/home");
-          });
           client.close();
           client.done.then((_) {
             print('Déconnecté du Raspberry Pi');
+          });
+          Timer(const Duration(seconds: 5), () {
+            Navigator.of(context).pushNamed("/home");
           });
         }
       });
