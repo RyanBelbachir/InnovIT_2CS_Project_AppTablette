@@ -65,12 +65,15 @@ class _ProgressState extends State<Progress> {
     };
 
     final json = jsonEncode(data);
+    try {
+      final Socket socket = await Socket.connect(host, port);
+      print('Connecté au serveur $host:$port');
 
-    Socket.connect(host, port).then((client) {
-      print('Connecté au Raspberry Pi');
-      client.write(json);
-      client.listen((List<int> data) {
-        print('Données reçues du Raspberry Pi : $data');
+      // Envoyer des données au serveur
+      socket.write(json);
+
+      // Recevoir la réponse du serveur
+      socket.listen((List<int> data) async {
         List<int> message = data;
         String decodedMessage = String.fromCharCodes(message);
         print(decodedMessage);
@@ -85,10 +88,8 @@ class _ProgressState extends State<Progress> {
               progress = 1;
               barColor = CustomColors.greenColor;
             });
-            client.close();
-            client.done.then((_) {
-              print('Déconnecté du Raspberry Pi');
-            });
+            await socket.close();
+            print('Connexion fermée');
             Timer(const Duration(seconds: 2), () {
               Navigator.of(context).pushNamed("/bonne-appetit");
             });
@@ -99,16 +100,60 @@ class _ProgressState extends State<Progress> {
             preparationError = decodedMessage;
             // to display the error to the user
           });
-          client.close();
-          client.done.then((_) {
-            print('Déconnecté du Raspberry Pi');
-          });
+          await socket.close();
+          print('Connexion fermée');
           Timer(const Duration(seconds: 5), () {
             Navigator.of(context).pushNamed("/home");
           });
         }
       });
-    });
+    } catch (e) {
+      print('Erreur: $e');
+    }
+
+    // Socket.connect(host, port).then((client) {
+    //   print('Connecté au Raspberry Pi');
+    //   client.write(json);
+    //   client.listen((List<int> data) {
+    //     print('Données reçues du Raspberry Pi : $data');
+    //     List<int> message = data;
+    //     String decodedMessage = String.fromCharCodes(message);
+    //     print(decodedMessage);
+    //     try {
+    //       final temp = double.parse(decodedMessage);
+    //       if (temp != 100.0) {
+    //         setState(() {
+    //           progress = temp / 100;
+    //         });
+    //       } else {
+    //         setState(() {
+    //           progress = 1;
+    //           barColor = CustomColors.greenColor;
+    //         });
+    //         client.close();
+    //         client.done.then((_) {
+    //           print('Déconnecté du Raspberry Pi');
+    //         });
+    //         Timer(const Duration(seconds: 2), () {
+    //           Navigator.of(context).pushNamed("/bonne-appetit");
+    //         });
+    //       }
+    //     } catch (e) {
+    //       // handle errors during preparation
+    //       setState(() {
+    //         preparationError = decodedMessage;
+    //         // to display the error to the user
+    //       });
+    //       client.close();
+    //       client.done.then((_) {
+    //         print('Déconnecté du Raspberry Pi');
+    //       });
+    //       Timer(const Duration(seconds: 5), () {
+    //         Navigator.of(context).pushNamed("/home");
+    //       });
+    //     }
+    //   });
+    // });
   }
 
   Future download() async {
