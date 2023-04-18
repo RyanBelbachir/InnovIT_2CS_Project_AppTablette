@@ -52,10 +52,49 @@ class _ProgressState extends State<Progress> {
     }
   }
 
+  void handleSocketData(Socket socket, List<int> data,
+      StreamSubscription<List<int>> subscription) async {
+    List<int> message = data;
+    String decodedMessage = String.fromCharCodes(message);
+    print(decodedMessage);
+    try {
+      final temp = double.parse(decodedMessage);
+      if (temp != 100.0) {
+        setState(() {
+          progress = temp / 100;
+        });
+      } else {
+        setState(() {
+          progress = 1;
+          barColor = CustomColors.greenColor;
+        });
+        await socket.close();
+        print('Connexion fermée');
+        subscription.cancel(); // cancel the subscription
+        Timer(const Duration(seconds: 2), () {
+          Navigator.of(context).pushNamed("/bonne-appetit");
+        });
+      }
+    } catch (e) {
+      // handle errors during preparation
+      setState(() {
+        preparationError = decodedMessage;
+        // to display the error to the user
+      });
+      await socket.close();
+      print('Connexion fermée');
+      subscription.cancel(); // cancel the subscription
+      Timer(const Duration(seconds: 5), () {
+        Navigator.of(context).pushNamed("/home");
+      });
+    }
+  }
+
   void getProgress() async {
+    //final data = await getSteps(commandeId);
     const host = '172.20.10.3';
     const port = 5000;
-    //final data = await getSteps(commandeId);
+
     final data = {
       "step1": "GET_GOBELET",
       "step2": "REHEAT",
@@ -65,51 +104,18 @@ class _ProgressState extends State<Progress> {
     };
 
     final json = jsonEncode(data);
-    try {
-      final Socket socket = await Socket.connect(host, port);
-      print('Connecté au serveur $host:$port');
 
-      // Envoyer des données au serveur
-      socket.write(json);
+    final Socket socket = await Socket.connect(host, port);
+    print('Connecté au serveur $host:$port');
 
-      // Recevoir la réponse du serveur
-      socket.listen((List<int> data) async {
-        List<int> message = data;
-        String decodedMessage = String.fromCharCodes(message);
-        print(decodedMessage);
-        try {
-          final temp = double.parse(decodedMessage);
-          if (temp != 100.0) {
-            setState(() {
-              progress = temp / 100;
-            });
-          } else {
-            setState(() {
-              progress = 1;
-              barColor = CustomColors.greenColor;
-            });
-            await socket.close();
-            print('Connexion fermée');
-            Timer(const Duration(seconds: 2), () {
-              Navigator.of(context).pushNamed("/bonne-appetit");
-            });
-          }
-        } catch (e) {
-          // handle errors during preparation
-          setState(() {
-            preparationError = decodedMessage;
-            // to display the error to the user
-          });
-          await socket.close();
-          print('Connexion fermée');
-          Timer(const Duration(seconds: 5), () {
-            Navigator.of(context).pushNamed("/home");
-          });
-        }
-      });
-    } catch (e) {
-      print('Erreur: $e');
-    }
+// Envoyer des données au serveur
+    socket.write(json);
+
+// Recevoir la réponse du serveur
+    late StreamSubscription<List<int>> socketSubscription;
+    socketSubscription = socket.listen((List<int> data) {
+      handleSocketData(socket, data, socketSubscription);
+    });
 
     // Socket.connect(host, port).then((client) {
     //   print('Connecté au Raspberry Pi');
