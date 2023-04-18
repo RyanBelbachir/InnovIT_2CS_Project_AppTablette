@@ -18,6 +18,7 @@ class Progress extends StatefulWidget {
 }
 
 class _ProgressState extends State<Progress> {
+  bool stopVideo = false;
   late String videoUrl;
   late int commandeId;
   double progress = 0;
@@ -79,6 +80,7 @@ class _ProgressState extends State<Progress> {
           progress = 1;
           barColor = CustomColors.greenColor;
         });
+        handleStopVideo();
         await socket.close();
         print('Connexion fermée');
         subscription.cancel(); // cancel the subscription
@@ -92,6 +94,7 @@ class _ProgressState extends State<Progress> {
         preparationError = decodedMessage;
         // to display the error to the user
       });
+      handleStopVideo();
       await socket.close();
       print('Connexion fermée');
       subscription.cancel(); // cancel the subscription
@@ -126,6 +129,12 @@ class _ProgressState extends State<Progress> {
     late StreamSubscription<List<int>> socketSubscription;
     socketSubscription = socket.listen((List<int> data) {
       handleSocketData(socket, data, socketSubscription);
+    });
+  }
+
+  void handleStopVideo() {
+    setState(() {
+      stopVideo = true;
     });
   }
 
@@ -225,7 +234,11 @@ class _ProgressState extends State<Progress> {
               Gaps.gapV16,
               desplayPreparationError(),
               Gaps.customVGap(90),
-              Video(url: videoUrl)
+              Video(
+                url: videoUrl,
+                stopVideo: stopVideo,
+                onVideoStopped: handleStopVideo,
+              )
             ]),
           ),
         ]),

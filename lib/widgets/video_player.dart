@@ -5,7 +5,14 @@ import '../styles/theme.dart';
 
 class Video extends StatefulWidget {
   final String url;
-  const Video({super.key, required this.url});
+  final bool stopVideo;
+  final VoidCallback onVideoStopped;
+  const Video({
+    super.key,
+    required this.url,
+    required this.stopVideo,
+    required this.onVideoStopped,
+  });
 
   @override
   State<Video> createState() => _VideoState();
@@ -23,7 +30,7 @@ class _VideoState extends State<Video> {
 
     initializeVideoPlayerFuture = controller.initialize();
     controller.play();
-    controller.setVolume(0);
+    //controller.setVolume(0);
     controller.setLooping(false);
   }
 
@@ -41,6 +48,10 @@ class _VideoState extends State<Video> {
         future: initializeVideoPlayerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
+            if (widget.stopVideo) {
+              controller.pause();
+              widget.onVideoStopped();
+            }
             return AspectRatio(
               aspectRatio: controller.value.aspectRatio,
               child: VideoPlayer(controller),
