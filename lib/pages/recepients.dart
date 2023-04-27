@@ -2,7 +2,7 @@ import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:innovit_2cs_project_apptablette/widgets/back_arrow.dart';
 
-import '../bussiness/techdata.dart';
+import '../viewmodels/techdata.dart';
 import '../styles/theme.dart';
 import '../widgets/percentage.dart';
 

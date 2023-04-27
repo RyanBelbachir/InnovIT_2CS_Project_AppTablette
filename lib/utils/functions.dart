@@ -1,8 +1,8 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../bussiness/category.dart';
-import '../bussiness/commande.dart';
+import '../viewmodels/category.dart';
+import '../viewmodels/commande.dart';
 
 Future<http.Response> sendSelectedDrink(
     int idRecette, int idIngredient, String quantiy) async {

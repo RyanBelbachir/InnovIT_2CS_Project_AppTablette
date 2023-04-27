@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:innovit_2cs_project_apptablette/utils/extentions.dart';
-import '/bussiness/drink.dart';
-import '/bussiness/category.dart';
+import '../viewmodels/drink.dart';
+import '../viewmodels/category.dart';
 import '/widgets/card.dart';
 import '/styles/theme.dart';
 import '../utils/functions.dart';

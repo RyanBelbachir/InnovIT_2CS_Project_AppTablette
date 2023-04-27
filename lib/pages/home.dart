@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:innovit_2cs_project_apptablette/widgets/footer.dart';
 import '../widgets/tabs.dart';
-import '../bussiness/drink.dart';
+import '../viewmodels/drink.dart';
 import '../styles/theme.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:http/http.dart' as http;
