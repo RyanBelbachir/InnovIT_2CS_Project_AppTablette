@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import "package:flutter/material.dart";
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '/styles/theme.dart';
 import '../widgets/back_arrow.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -18,7 +17,7 @@ class Scan extends StatefulWidget {
 
 class _ScanState extends State<Scan> {
   late int commandeId;
-  late String link;
+  late String data;
   late Future<File> image;
   dynamic scanResults; // for camera
   late CameraController camera;
@@ -82,7 +81,7 @@ class _ScanState extends State<Scan> {
   @override
   Widget build(BuildContext context) {
     commandeId = ModalRoute.of(context)!.settings.arguments as int;
-    link = "${dotenv.env["API_URL"]}Distributeur/command/$commandeId";
+    data = '{"idComm":$commandeId,"idDistr":1}';
     picture = initializeCamera();
 
     return Scaffold(
@@ -106,7 +105,7 @@ class _ScanState extends State<Scan> {
                 Gaps.customVGap(64),
                 Center(
                   child: QrImage(
-                    data: link,
+                    data: data,
                     size: 280,
                   ),
                 ),
