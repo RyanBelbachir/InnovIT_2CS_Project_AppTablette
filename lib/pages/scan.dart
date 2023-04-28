@@ -7,6 +7,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import '../widgets/footer.dart';
 import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class Scan extends StatefulWidget {
   const Scan({super.key});
@@ -24,9 +25,11 @@ class _ScanState extends State<Scan> {
   late Future<void> cameraFuture;
   late Future<String> videoUrl;
   late Future<XFile> picture;
-
   bool isDetecting = false;
   final CameraLensDirection direction = CameraLensDirection.front;
+  bool paymentValidated = false;
+  String paymentStatus = "";
+
   @override
   void initState() {
     super.initState();
@@ -34,7 +37,6 @@ class _ScanState extends State<Scan> {
 
   @override
   void dispose() {
-    camera.dispose();
     super.dispose();
   }
 
@@ -78,11 +80,51 @@ class _ScanState extends State<Scan> {
     }
   }
 
+  void checkPayment() {
+    IO.Socket socket =
+        IO.io('https://innovit-payment.onrender.com', <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
+
+    // handle connection events
+    socket.onConnect((_) {
+      print('Connected to payment server!');
+    });
+
+    socket.onDisconnect((_) {
+      print('Disconnected from payment server!');
+    });
+
+    // event handler to recieve paiement validation
+    socket.on('validation', (data) {
+      print('Received a validation message: $data');
+      if (data["commandId"] == commandeId) {
+        if (data["valid"]) {
+          setState(() {
+            paymentValidated = true;
+          });
+        } else {
+          setState(() {
+            paymentStatus = "there was an error with payment please try again";
+          });
+        }
+      }
+    });
+
+    // connect to the server
+    socket.connect();
+
+    // send a message to the server
+    socket.emit('chat message', 'Hello server!');
+  }
+
   @override
   Widget build(BuildContext context) {
     commandeId = ModalRoute.of(context)!.settings.arguments as int;
     data = '{"idComm":$commandeId,"idDistr":1}';
     picture = initializeCamera();
+    checkPayment();
 
     return Scaffold(
         body: SafeArea(
@@ -110,17 +152,19 @@ class _ScanState extends State<Scan> {
                   ),
                 ),
                 Gaps.gapV25,
+                Center(child: Text(paymentStatus, style: Fonts.bold24Red)),
                 Center(
                     child: FutureBuilder(
                   future: picture,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
+                      camera.dispose();
+                      print("picture taken");
                       videoUrl = getVideoUrl(snapshot.data!);
                       return FutureBuilder(
                           future: videoUrl,
                           builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              //print(snapshot.data!);
+                            if (snapshot.hasData && paymentValidated) {
                               return TextButton(
                                   style: ButtonStyle(
                                       alignment: Alignment.center,
@@ -152,7 +196,10 @@ class _ScanState extends State<Scan> {
                             return const Text("");
                           });
                     } else if (snapshot.hasError) {
-                      return const Text("");
+                      return const Text(
+                        "An error has accured, please try again",
+                        style: Fonts.bold24Red,
+                      );
                     }
                     return const Text("");
                   },
