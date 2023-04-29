@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:typed_data';
+import 'dart:async';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:innovit_2cs_project_apptablette/pages/ingredients.dart';
 import 'package:innovit_2cs_project_apptablette/styles/theme.dart';
 import 'package:innovit_2cs_project_apptablette/widgets/settings_card.dart';
 
@@ -13,7 +17,7 @@ class TechnicalData extends StatefulWidget {
 }
 
 class _TechnicalDataState extends State<TechnicalData> {
-  String machineID = "dkonavijrvhfealdnas";
+  String machineID = "1";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,19 +56,22 @@ class _TechnicalDataState extends State<TechnicalData> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: const [
                           SettingsCard(
-                              icon: CustomIcons.ingsIcon,
-                              route: "/ingredients",
-                              name: "Ingredients’ levels"),
+                            icon: CustomIcons.ingsIcon,
+                            route: "/ingredients",
+                            name: "Ingredients’ levels",
+                          ),
                           Gaps.gapV25,
                           SettingsCard(
-                              icon: CustomIcons.recIcon,
-                              route: "/recipients",
-                              name: "Recipients’ levels"),
+                            icon: CustomIcons.recIcon,
+                            route: "/recipients",
+                            name: "Recipients’ levels",
+                          ),
                           Gaps.gapV25,
                           SettingsCard(
-                              icon: CustomIcons.tempIcon,
-                              route: "/temps",
-                              name: "Temperatures")
+                            icon: CustomIcons.tempIcon,
+                            route: "/temps",
+                            name: "Temperatures",
+                          )
                         ],
                       ))),
             ],

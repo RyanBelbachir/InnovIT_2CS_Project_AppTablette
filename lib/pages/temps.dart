@@ -2,7 +2,9 @@ import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:innovit_2cs_project_apptablette/widgets/back_arrow.dart';
 import 'package:innovit_2cs_project_apptablette/widgets/temp.dart';
-
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import '../styles/theme.dart';
 
 class Temps extends StatefulWidget {
@@ -13,14 +15,58 @@ class Temps extends StatefulWidget {
 }
 
 class _TempsState extends State<Temps> {
-  final List<TempData> temperatures = const [
-    TempData(component: "component1", temperature: 70, maxTemp: 60),
-    TempData(component: "component2", temperature: 55, maxTemp: 60),
-    TempData(component: "component3", temperature: 100, maxTemp: 90),
-    TempData(component: "component4", temperature: 40, maxTemp: 50),
-  ];
+  late StreamSubscription<List<int>> socketSubscription;
+  late Socket socket;
+  List<Map<String, dynamic>> temperatures = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getTemps();
+  }
+
+  @override
+  void dispose() async {
+    super.dispose();
+    socketSubscription.cancel();
+    socket.close().then((value) => print('Connexion fermée'));
+  }
+
+  void getTemps() async {
+    const host = '172.20.10.2';
+    const port = 3000;
+
+    socket = await Socket.connect(host, port);
+    print('Connecté au serveur $host:$port');
+
+    socketSubscription = socket.listen((List<int> data) {
+      handleSocketData(socket, data, socketSubscription);
+    });
+  }
+
+  void handleSocketData(Socket socket, List<int> data,
+      StreamSubscription<List<int>> subscription) async {
+    List<int> message = data;
+    String decodedMessage = String.fromCharCodes(message);
+    print(decodedMessage);
+    Map<String, dynamic> json = jsonDecode(decodedMessage);
+    try {
+      print(json);
+      setState(() {
+        temperatures = (json["temperatures"] as List<dynamic>)
+            .cast<Map<String, dynamic>>();
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final temps = temperatures.map((temp) {
+      return TempData(
+          component: temp["name"], temperature: temp["level"], maxTemp: 80);
+    });
     return Scaffold(
       body: SafeArea(
         child: Stack(children: [
@@ -48,7 +94,7 @@ class _TempsState extends State<Temps> {
                       padding: Paddings.padding16,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: temperatures.toList(),
+                        children: temps.toList(),
                       ))),
             ],
           ),

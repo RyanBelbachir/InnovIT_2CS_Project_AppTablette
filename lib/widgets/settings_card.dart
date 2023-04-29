@@ -6,8 +6,12 @@ class SettingsCard extends StatefulWidget {
   final String route;
   final Icon icon;
   final String name;
-  const SettingsCard(
-      {super.key, required this.icon, required this.route, required this.name});
+  const SettingsCard({
+    super.key,
+    required this.icon,
+    required this.route,
+    required this.name,
+  });
 
   @override
   State<SettingsCard> createState() => _SettingsCardState();

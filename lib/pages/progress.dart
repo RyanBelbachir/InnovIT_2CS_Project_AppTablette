@@ -103,19 +103,11 @@ class _ProgressState extends State<Progress> {
   }
 
   void getProgress() async {
-    //final data = await getSteps(commandeId);
+    final data = await getSteps(commandeId);
     const host = '172.20.10.3';
     const port = 5000;
 
-    final data = {
-      "step1": "GET_GOBELET",
-      "step2": "REHEAT",
-      "step3": {"step1": "VERSER_BOISSON_1", "step2": "VERSER_QUANT_2"},
-      "step4": {"step1": "VERSER_TOPPING_1", "step2": "VERSER_QUANT_2"},
-      "step5": "GET_SPOON",
-    };
-
-    final json = jsonEncode(data);
+    //final json = jsonEncode(data);
 
     final Socket socket = await Socket.connect(host, port);
     print('Connecté au serveur $host:$port');
