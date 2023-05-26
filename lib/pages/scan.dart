@@ -122,10 +122,9 @@ class _ScanState extends State<Scan> {
   @override
   Widget build(BuildContext context) {
     commandeId = ModalRoute.of(context)!.settings.arguments as int;
-    print("commandeID : $commandeId");
     data = '{"idComm":$commandeId,"idDistr":1}';
     picture = initializeCamera();
-    checkPayment();
+    //checkPayment();
 
     return Scaffold(
         body: SafeArea(
@@ -165,7 +164,7 @@ class _ScanState extends State<Scan> {
                       return FutureBuilder(
                           future: videoUrl,
                           builder: (context, snapshot) {
-                            if (snapshot.hasData && paymentValidated) {
+                            if (snapshot.hasData) {
                               return TextButton(
                                   style: ButtonStyle(
                                       alignment: Alignment.center,
