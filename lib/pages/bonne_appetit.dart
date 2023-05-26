@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../styles/theme.dart';
 import '../widgets/footer.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class BonneAppetit extends StatefulWidget {
   const BonneAppetit({super.key});
@@ -13,15 +14,28 @@ class BonneAppetit extends StatefulWidget {
 }
 
 class _BonneAppetitState extends State<BonneAppetit> {
+  AudioPlayer audioPlayer = AudioPlayer();
+
+  @override
+  void initState() {
+    super.initState();
+    audioPlayer.setSourceAsset("done.mp3");
+  }
+
   void revert(BuildContext context) {
     Timer(const Duration(seconds: 10), () {
       Navigator.of(context).pushNamed("/home");
     });
   }
 
+  void playSound() async {
+    await audioPlayer.play(audioPlayer.source!);
+  }
+
   @override
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback((_) => revert(context));
+    playSound();
     return Scaffold(
         body: SafeArea(
             child: Stack(children: [

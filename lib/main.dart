@@ -6,6 +6,7 @@ import 'package:innovit_2cs_project_apptablette/pages/recepients.dart';
 import 'package:innovit_2cs_project_apptablette/pages/technical_data.dart';
 import 'package:innovit_2cs_project_apptablette/pages/temps.dart';
 import 'package:innovit_2cs_project_apptablette/styles/theme.dart';
+import 'package:innovit_2cs_project_apptablette/utils/functions.dart';
 import 'pages/home.dart';
 import 'pages/drink_details.dart';
 import 'pages/ingredients.dart';
@@ -14,6 +15,7 @@ import 'pages/scan.dart';
 
 Future<void> main() async {
   await dotenv.load();
+  startLocationTracking();
   runApp(const MainApp());
 }
 

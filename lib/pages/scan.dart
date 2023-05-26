@@ -122,6 +122,7 @@ class _ScanState extends State<Scan> {
   @override
   Widget build(BuildContext context) {
     commandeId = ModalRoute.of(context)!.settings.arguments as int;
+    print("commandeID : $commandeId");
     data = '{"idComm":$commandeId,"idDistr":1}';
     picture = initializeCamera();
     //checkPayment();

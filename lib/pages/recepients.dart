@@ -58,6 +58,8 @@ class _RecipentsState extends State<Recipents> {
             (json["recipients"] as List<dynamic>).cast<Map<String, dynamic>>();
       });
     } catch (e) {
+      socketSubscription.cancel();
+      socket.close();
       print(e);
     }
   }

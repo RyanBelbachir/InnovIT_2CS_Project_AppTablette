@@ -57,6 +57,8 @@ class _TempsState extends State<Temps> {
             .cast<Map<String, dynamic>>();
       });
     } catch (e) {
+      socketSubscription.cancel();
+      socket.close();
       print(e);
     }
   }

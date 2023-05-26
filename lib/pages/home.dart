@@ -9,9 +9,9 @@ import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<Drink>> fetchDrinks() async {
-  final url = Uri.parse('${dotenv.env["API_URL"]}/Distributeur/drinks');
+  final url = Uri.parse(
+      '${dotenv.env["API_URL"]}/Distributeur/drinks?distributeurId=0A1Z4');
   final response = await http.get(url);
-  // final response = await Client().send(request);
   if (response.statusCode == 200) {
     List myList = jsonDecode(response.body);
     return myList.map((e) => Drink.fromJson(e)).toList();
