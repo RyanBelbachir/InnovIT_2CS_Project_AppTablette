@@ -59,6 +59,8 @@ class _IngredientsState extends State<Ingredients> {
             (json["levels"] as List<dynamic>).cast<Map<String, dynamic>>();
       });
     } catch (e) {
+      socketSubscription.cancel();
+      socket.close();
       print(e);
     }
   }

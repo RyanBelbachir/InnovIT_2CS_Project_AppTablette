@@ -34,10 +34,6 @@ class _ProgressState extends State<Progress> {
   @override
   void initState() {
     super.initState();
-    if (!isInitialized) {
-      isInitialized = true;
-      getProgress();
-    }
   }
 
   @override
@@ -113,7 +109,7 @@ class _ProgressState extends State<Progress> {
     print('Connecté au serveur $host:$port');
 
 // Envoyer des données au serveur
-    socket.write(json);
+    socket.write(data);
 
 // Recevoir la réponse du serveur
     late StreamSubscription<List<int>> socketSubscription;
@@ -185,6 +181,10 @@ class _ProgressState extends State<Progress> {
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     videoUrl = arguments["videoUrl"];
     commandeId = arguments["commandeId"];
+    if (!isInitialized) {
+      isInitialized = true;
+      getProgress();
+    }
     //testSteps();
 
     return WillPopScope(
