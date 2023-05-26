@@ -125,7 +125,7 @@ class _ScanState extends State<Scan> {
     print("commandeID : $commandeId");
     data = '{"idComm":$commandeId,"idDistr":1}';
     picture = initializeCamera();
-    //checkPayment();
+    checkPayment();
 
     return Scaffold(
         body: SafeArea(
@@ -165,7 +165,7 @@ class _ScanState extends State<Scan> {
                       return FutureBuilder(
                           future: videoUrl,
                           builder: (context, snapshot) {
-                            if (snapshot.hasData) {
+                            if (snapshot.hasData && paymentValidated) {
                               return TextButton(
                                   style: ButtonStyle(
                                       alignment: Alignment.center,
