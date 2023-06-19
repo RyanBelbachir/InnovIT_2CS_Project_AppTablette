@@ -47,27 +47,30 @@ void startLocationTracking() {
   var geolocator = Geolocator();
   var location = Location();
   bool isFirstLocationUpdate = true;
-  LocationData previousLocation;
+  //LocationData previousLocation=;
 
   // Start location tracking
+
   location.onLocationChanged.listen((LocationData currentLocation) {
     double latitude = currentLocation.latitude!;
     double longitude = currentLocation.longitude!;
+    print("longitude : $longitude");
+    print("Latitude : $latitude");
 
-    previousLocation = currentLocation;
     // Compare with the previous location
-    if (isFirstLocationUpdate ||
-        hasLocationChanged(previousLocation, currentLocation)) {
-      print("lcoation changed");
-      print("longitude : $longitude");
-      print("Latitude : $latitude");
-      // send location to backend
-      sendLocation(longitude, latitude);
+    sendLocation(longitude, latitude);
+    // if (isFirstLocationUpdate ||
+    //     hasLocationChanged(previousLocation, currentLocation)) {
+    //   print("lcoation changed");
+    //   print("longitude : $longitude");
+    //   print("Latitude : $latitude");
+    //   // send location to backend
 
-      // Update the previous location
-      previousLocation = currentLocation;
-      isFirstLocationUpdate = false;
-    }
+    //   // Update the previous location
+    //   previousLocation = currentLocation;
+    //   isFirstLocationUpdate = false;
+    //   print(isFirstLocationUpdate);
+    // }
   });
 
   // Set up a timer to stop location tracking after a specific interval (optional)
@@ -86,29 +89,43 @@ bool hasLocationChanged(
     LocationData previousLocation, LocationData currentLocation) {
   // Compare latitude and longitude
   // we round it to 4 degits after the comma to reduce the rate of change
-  if (roundDouble(previousLocation.latitude!, 4) !=
-          roundDouble(currentLocation.latitude!, 4) ||
-      roundDouble(previousLocation.longitude!, 4) !=
-          roundDouble(currentLocation.longitude!, 4)) {
+  // if (roundDouble(previousLocation.latitude!, 6) !=
+  //         roundDouble(currentLocation.latitude!, 6) ||
+  //     roundDouble(previousLocation.longitude!, 6) !=
+  //         roundDouble(currentLocation.longitude!, 6)) {
+  print("pr : ${previousLocation.latitude}");
+  print("current : ${currentLocation.latitude}");
+  if ((previousLocation.latitude != currentLocation.latitude) ||
+      (previousLocation.longitude != currentLocation.longitude)) {
+    print("location has changed");
     return true; // Location has changed
+  } else {
+    print("location has not changed");
+    return false; // Location has not changed
   }
-  return false; // Location has not changed
 }
 
 void sendLocation(double longitude, double latitude) async {
-  final url = Uri.parse('${dotenv.env["API_URL"]}/Distributeur/localisation');
-  final response = await http.post(url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'distributeurId': "0A1Z4",
-        'longitude': longitude.toString(),
-        'latitude': latitude.toString()
-      }));
-  if (response.statusCode == 200) {
-    print("location changes sent sucessfully");
-  } else {
-    throw Exception('failed to send location changes: ${response.statusCode}');
+  try {
+    final url = Uri.parse('${dotenv.env["API_URL"]}/Distributeur/localisation');
+    final response = await http.post(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'distributeurId': "0A1Z4",
+          'longitude': longitude.toString(),
+          'latitude': latitude.toString()
+        }));
+    if (response.statusCode == 200) {
+      print("location changes sent sucessfully");
+    } else {
+      throw Exception(
+          'failed to send location changes: ${response.statusCode}');
+    }
+  } on http.ClientException catch (clientException) {
+    // skip exception to not crash the app
+    print(clientException.message);
+    print("failed to send location changes");
   }
 }

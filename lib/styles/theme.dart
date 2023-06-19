@@ -51,6 +51,11 @@ class Fonts {
       fontSize: 24,
       fontWeight: FontWeight.bold,
       color: CustomColors.redColor);
+  static const TextStyle bold20Red = TextStyle(
+      fontFamily: "Outfit",
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: CustomColors.redColor);
   static const TextStyle bold24Green = TextStyle(
       fontFamily: "Outfit",
       fontSize: 24,
@@ -76,6 +81,11 @@ class Fonts {
       fontSize: 14,
       fontWeight: FontWeight.w300,
       color: CustomColors.blackColor);
+  static const TextStyle light14white = TextStyle(
+      fontFamily: "Outfit",
+      fontSize: 14,
+      fontWeight: FontWeight.w300,
+      color: CustomColors.whiteColor);
   static const TextStyle lobster32 = TextStyle(
       fontFamily: "Lobster", fontSize: 32, color: CustomColors.blackColor);
 }
