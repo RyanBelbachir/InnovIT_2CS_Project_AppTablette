@@ -14,13 +14,7 @@ class BonneAppetit extends StatefulWidget {
 }
 
 class _BonneAppetitState extends State<BonneAppetit> {
-  AudioPlayer audioPlayer = AudioPlayer();
-
-  @override
-  void initState() {
-    super.initState();
-    audioPlayer.setSourceAsset("done.mp3");
-  }
+  late AudioPlayer player;
 
   void revert(BuildContext context) {
     Timer(const Duration(seconds: 10), () {
@@ -28,14 +22,12 @@ class _BonneAppetitState extends State<BonneAppetit> {
     });
   }
 
-  void playSound() async {
-    await audioPlayer.play(audioPlayer.source!);
-  }
-
   @override
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback((_) => revert(context));
-    playSound();
+    player = AudioPlayer();
+    player.play(AssetSource("sounds/done.mp3"));
+    print("sound played");
     return Scaffold(
         body: SafeArea(
             child: Stack(children: [

@@ -18,7 +18,9 @@ class Drink {
         name: json["name"],
         description: json["description"],
         imageLink: json["imageLink"],
-        price: json["price"],
+        price: json["price"] is int
+            ? (json["price"] as int).toDouble()
+            : json["price"],
         category: json["category"]);
   }
 }
