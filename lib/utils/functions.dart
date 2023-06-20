@@ -129,3 +129,34 @@ void sendLocation(double longitude, double latitude) async {
     print("failed to send location changes");
   }
 }
+
+Future<void> notifyMaintenanceMode() async {
+  final url = Uri.parse('${dotenv.env["API_URL"]}/Distributeur/modeAm');
+  final response = await http.post(url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'identifiant': "0A1Z4",
+        'maintenance': true,
+      }));
+  if (response.statusCode == 200) {
+    print("maintenance mode notified");
+  } else {
+    throw Exception(
+        'failed to notify maintenance mode: ${response.statusCode}');
+  }
+}
+
+Future<String> fetchVerouCode() async {
+  final url = Uri.parse(
+      '${dotenv.env["API_URL"]}/Distributeur/log?ditributeurId=0A1Z4');
+  final response = await http.get(url);
+  // final response = await Client().send(request);
+  if (response.statusCode == 200) {
+    Map<String, dynamic> json = jsonDecode(response.body);
+    return json["codeverou"].toString();
+  } else {
+    throw Exception('failed to load drinks,error code: ${response.statusCode}');
+  }
+}

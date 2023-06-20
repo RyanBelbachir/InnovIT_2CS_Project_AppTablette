@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../styles/theme.dart';
+import 'package:http/http.dart' as http;
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -9,9 +13,52 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  bool on = true;
-  String machineState = "running";
+  String machineState = "Maintenance";
   Color stateColor = CustomColors.blackColor;
+
+  Future<void> start() async {
+    final url = Uri.parse('${dotenv.env["API_URL"]}/Distributeur/state');
+    final response = await http.post(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'identifiant': "0A1Z4",
+          'idState': 1,
+        }));
+    if (response.statusCode == 200) {
+      setState(() {
+        machineState = "Active";
+        stateColor = CustomColors.greenColor;
+      });
+      print("state active notified");
+    } else {
+      throw Exception('failed to set state to active: ${response.statusCode}');
+    }
+  }
+
+  void stop() async {
+    final url = Uri.parse('${dotenv.env["API_URL"]}/Distributeur/state');
+    final response = await http.post(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'identifiant': "0A1Z4",
+          'idState': 2,
+        }));
+    if (response.statusCode == 200) {
+      setState(() {
+        machineState = "Shutdown";
+        stateColor = CustomColors.redColor;
+      });
+      print("state shutdown notified");
+    } else {
+      throw Exception(
+          'failed to set state to shutdown: ${response.statusCode}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,15 +110,10 @@ class _SettingsState extends State<Settings> {
                         )),
                         backgroundColor: const MaterialStatePropertyAll(
                             CustomColors.redColor)),
-                    onPressed: on
-                        ? () {
-                            setState(() {
-                              on = false;
-                              machineState = "stopping...";
-                              stateColor = CustomColors.redColor;
-                            });
-                          }
-                        : null,
+                    onPressed: () {
+                      stop();
+                      Navigator.of(context).pushNamed("/unavailable");
+                    },
                     child: const Text(
                       "Stop Machine",
                       style: Fonts.bold24White,
@@ -90,15 +132,10 @@ class _SettingsState extends State<Settings> {
                         )),
                         backgroundColor: const MaterialStatePropertyAll(
                             CustomColors.greenColor)),
-                    onPressed: !on
-                        ? () {
-                            setState(() {
-                              on = true;
-                              machineState = "starting...";
-                              stateColor = CustomColors.greenColor;
-                            });
-                          }
-                        : null,
+                    onPressed: () {
+                      start();
+                      Navigator.of(context).pushNamed("/home");
+                    },
                     child: const Text(
                       "Start Machine",
                       style: Fonts.bold24White,

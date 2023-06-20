@@ -25,10 +25,6 @@ class _ProgressState extends State<Progress> {
   Color barColor = CustomColors.blackColor;
   String? preparationError;
 
-  void testSteps() async {
-    await getSteps(commandeId).then((value) => print(value));
-  }
-
   bool isInitialized = false;
 
   @override
@@ -130,30 +126,6 @@ class _ProgressState extends State<Progress> {
     }
   }
 
-  Future download() async {
-    const url =
-        "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4";
-    final request = http.Request('GET', Uri.parse(url));
-    final response = await http.Client().send(request);
-    final contentLength = response.contentLength;
-    final file = getFile('file.mp4');
-    final bytes = <int>[];
-    response.stream.listen((newBytes) {
-      bytes.addAll(newBytes);
-      setState(() {
-        progress = bytes.length / (contentLength as num);
-      });
-    }, onDone: () async {
-      setState(() {
-        progress = 1;
-        barColor = CustomColors.greenColor;
-      });
-      Timer(const Duration(seconds: 2), () {
-        Navigator.of(context).pushNamed("/bonne-appetit");
-      });
-    }, onError: print, cancelOnError: true);
-  }
-
   Future<File> getFile(String filename) async {
     final dir = await getApplicationDocumentsDirectory();
     return File('${dir.path}/$filename');
@@ -185,7 +157,6 @@ class _ProgressState extends State<Progress> {
       isInitialized = true;
       getProgress();
     }
-    //testSteps();
 
     return WillPopScope(
       onWillPop: () async => false,

@@ -101,7 +101,9 @@ class _MainAppState extends State<MainApp> {
           "/technical-data": (_) => const TechnicalData(),
           "/recipients": (_) => const Recipents(),
           "/ingredients": (_) => const Ingredients(),
-          "/temps": (_) => const Temps()
+          "/temps": (_) => const Temps(),
+          "/unavailable": (_) =>
+              Unavailable(onRetry: () => checkServerAvailability())
         },
         theme: ThemeData(
             primaryColor: const Color(0xff251201),
