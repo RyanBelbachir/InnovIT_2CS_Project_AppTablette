@@ -1,0 +1,41 @@
+# mobile1_distributeur_frontend
+
+La partie frontend de l'application de distributeur mobile1 dans le carde de projet 2CS.
+
+# technologies utilisés
+
+Flutter SDK 3.0.0
+dependencies : 
+  - drop_shadow_image: ^0.9.1
+  - drop_shadow: ^0.1.0
+  - assorted_layout_widgets: ^8.0.0
+  - qr_flutter: ^4.0.0
+  - percent_indicator: ^4.0.1
+  - video_player: ^2.6.0
+  - http: ^0.13.5
+  - path_provider: ^2.0.14
+  - flutter_svg: ^2.0.4
+  - flutter_screen_lock: ^9.0.1
+  - camera: ^0.10.3+2
+  - flutter_dotenv: ^5.0.2
+  - image_picker: ^0.8.7+1
+  - socket_io_client: ^2.0.1
+  - mqtt5_client: ^3.3.7
+  - geolocator: ^7.0.3
+  - location: ^4.1.1
+  - audioplayers: ^4.0.1
+
+# Comment utiliser
+
+1- installez les dépendances en exécutant la commande : flutter pub get
+
+2- lancez l'application en exécutant la commande : flutter run
+
+# Principaux fichiers et dossiers
+
+- Le fichier main.dart : représente le point d'entrée de l'application ( fonction main )
+- Le dossier pages : contient tous les écrans de l'application sous forme de widgets
+- Le dossier widgets : contient les widgets réutilisables qui sont utilisés par les différents écrans
+- Le dossier styles : contient les thèmes et les styles personnalisés utilisés dans l'application
+- Le dossier utils : contient les fonctions utilitaires et les fonctions d'intégration (qui communiquent avec le backend
+- Le dossier viewmodels : contient les classes de données qui lient les données à l'UI
