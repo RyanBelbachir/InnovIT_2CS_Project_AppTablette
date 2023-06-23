@@ -1,6 +1,5 @@
 # mobile1_distributeur_frontend
 The frontend part of the mobile1 distributor ( tablet ) application in the 2CS project card.
-La partie frontend de l'application de distributeur mobile1 dans le carde de projet 2CS.
 
 # Used
 Flutter SDK 3.0.0
